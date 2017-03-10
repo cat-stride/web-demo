@@ -31,6 +31,7 @@
     `,
   }
 
+
   const Ctor = Vue.extend(Main)
   new Ctor().$mount('#app')
 }
