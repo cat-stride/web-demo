@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    h1 {
+      width: 950px;
+      margin: 40px auto;
+    }
+    .bullet {
+      display: flex;
+      width: 950px;
+      margin: 0 auto;
+      font-size: 20px;
+      line-height: 30px;
+      height: 30px;
+      margin-bottom: 12px;
+    }
+    .bullet-sym {
+      width: 30px;
+    }
+    .bullet-input {
+      flex: 1;
+      height: 30px;
+      font-size: 20px;
+      outline: 0;
+      border: 0;
+    }
+    .bullet-input.editing {
+      border-bottom: 2px solid #999;
+    }
+  </style>
+  <script src="https://unpkg.com/vue@2.2.1/dist/vue.js"></script>
+  <title>DEMO::one shot</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="bullet.js"></script>
+  <script src="bullet-input.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
