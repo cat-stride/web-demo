@@ -23,11 +23,14 @@
     },
     methods: {
       changeSym(arrow, event) {
-        event.preventDefault()
+        if (event) event.preventDefault()
         if (this.readonly) return
         const count = this.syms.length
         const index = (this.syms.indexOf(this.bullet.sym) + arrow + count) % count
         this.bullet.sym = this.syms[index]
+      },
+      handleClickSym() {
+        changeSym(1)
         this.submit()
       },
       submit() {
@@ -36,17 +39,14 @@
         if (!this.bullet.sym || this.bullet.sym === '?') this.bullet.sym = '-'
         this.$emit('submit', this.bullet)
         this.editing = false
-        this.$lockFocus = true
-        this.$refs.input.blur()
       },
       focus() {
         this.$refs.input.focus()
       },
+      handleEnter() {
+        this.$refs.input.blur()
+      },
       handleFocus(bool) {
-        if (this.$lockFocus) {
-          this.$lockFocus = false
-          return
-        }
         if (!bool) this.submit()
         if (!bool && !this.bullet.content && this.bullet.sym === '?') return
         this.editing = bool
@@ -61,11 +61,11 @@
       },
       handleDelete() {
         if (this.bullet.content) return
-        if (!this.bullet.sym) {
+        if (this.bullet.sym === '?' && this.bullet.id) {
           this.delete()
           return
         }
-        this.bullet.sym = ''
+        this.bullet.sym = '?'
       },
       handleMousehover(bool) {
         if (this.readonly) {
@@ -75,7 +75,6 @@
         this.hover = bool
       },
       delete() {
-        if (!this.bullet.id) return
         this.$emit('delete', this.bullet)
       },
     },
@@ -86,7 +85,7 @@
     },
     template: `
       <div class="bullet">
-        <span class="bullet-sym" @click="changeSym(1, $event)">{{ bullet.sym }}</span>
+        <span class="bullet-sym" @click="handleClickSym()">{{ bullet.sym }}</span>
         <input ref="input" class="bullet-input" type="text" v-model="bullet.content"
           :class="{ editing: editing }"
           :readonly="readonly"
@@ -96,7 +95,7 @@
           @keydown.delete="handleDelete"
           @keydown.up="changeSym(-1, $event)"
           @keydown.down="changeSym(1, $event)"
-          @keydown.enter="submit">
+          @keydown.enter="handleEnter">
         <button v-if="hover" class="bullet-del">&times;</button>
       </div>
     `

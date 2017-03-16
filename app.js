@@ -14,7 +14,7 @@
     computed: {
       bulletsInDays() {
         return this.rawBullets.reduce((prev, record) => {
-          const day = moment(record.date).format('YYYY/M/D/dd')
+          const day = moment.unix(record.date).format('YYYY/M/D/dd')
           prev[day] = prev[day] || []
           record.day = day
           prev[day].push(record)
@@ -22,7 +22,9 @@
         }, {})
       },
       alldays() {
-        return Object.keys(this.bulletsInDays).sort()
+        const days = Object.keys(this.bulletsInDays).sort()
+        if (days.indexOf(this.today) > -1) return days
+        return days.concat(this.today)
       },
       days() {
         return this.alldays.slice(-this.dayRange)
